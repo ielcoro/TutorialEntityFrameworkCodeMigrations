@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace EFMigrationsSample.Model
 {
-    public class Client
+    public class Order
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Code { get; set; }
         public string Address { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public virtual IEnumerable<Order> Orders { get; set; }
+        public decimal SubTotal { get; set; }
+        public decimal Total { get; set; }
+        public int ClientId { get; set; }
+        public virtual Client Client { get; set;}
     }
 }
