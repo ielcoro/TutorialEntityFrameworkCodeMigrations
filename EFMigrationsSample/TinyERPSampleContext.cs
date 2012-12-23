@@ -16,10 +16,13 @@ namespace EFMigrationsSample
 
         public DbSet<Order> Orders { get; set; }
 
+        public DbSet<Address> AddressBook { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new ClientsMapping());
             modelBuilder.Configurations.Add(new OrdersMapping());
+            modelBuilder.Configurations.Add(new AddressesMapping());
         }
     }
 }

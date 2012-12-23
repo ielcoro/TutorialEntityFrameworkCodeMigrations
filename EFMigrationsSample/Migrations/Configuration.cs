@@ -1,5 +1,6 @@
 namespace EFMigrationsSample.Migrations
 {
+    using EFMigrationsSample.Model;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -14,18 +15,19 @@ namespace EFMigrationsSample.Migrations
 
         protected override void Seed(EFMigrationsSample.TinyERPSampleContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            context.Clients.AddOrUpdate(
+                new Client()
+                {
+                    City = "Bilbao",
+                    Address = "Carolina 3, 4-D",
+                    State = "Vizcaya"
+                },
+                new Client()
+                {
+                    City = "Eibar",
+                    Address = "Pantxineta 4, 5-A",
+                    State = "Eibar"
+                });
         }
     }
 }
