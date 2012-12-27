@@ -18,12 +18,14 @@ namespace EFMigrationsSample.Migrations
             context.Clients.AddOrUpdate(
                 new Client()
                 {
+                    Name = "Client 1",
                     City = "Bilbao",
                     Address = "Carolina 3, 4-D",
                     State = "Vizcaya"
                 },
                 new Client()
                 {
+                    Name = "Client 2",
                     City = "Eibar",
                     Address = "Pantxineta 4, 5-A",
                     State = "Eibar"
