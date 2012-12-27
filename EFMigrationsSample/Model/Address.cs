@@ -12,5 +12,6 @@ namespace EFMigrationsSample.Model
         public string AddressName { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public virtual IEnumerable<Client> Clients { get; set; }
     }
 }

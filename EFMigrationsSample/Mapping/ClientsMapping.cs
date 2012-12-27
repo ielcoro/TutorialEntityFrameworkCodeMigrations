@@ -18,7 +18,6 @@ namespace EFMigrationsSample.Mapping
             
             this.HasKey(x => x.Id);
             this.Property(x => x.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            this.Property(x => x.Name).IsRequired().HasMaxLength(40);
         }
 
     }

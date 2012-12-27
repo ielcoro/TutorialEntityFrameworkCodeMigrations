@@ -9,10 +9,10 @@ namespace EFMigrationsSample.Model
     public class Client
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
         public virtual IEnumerable<Order> Orders { get; set; }
+        public int BillingAddressId { get; set; }
+        public virtual BillingAddress BillingAddress { get; set; }
+        public int DeliveryAddressId { get; set; }
+        public virtual DeliveryAddress DeliveryAddress { get; set; }
     }
 }

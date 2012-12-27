@@ -59,6 +59,10 @@
     <Compile Include="Migrations\201212241215066_AddressBook.Designer.cs">
       <DependentUpon>201212241215066_AddressBook.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201212272139421_ClientAddressesAssociation.cs" />
+    <Compile Include="Migrations\201212272139421_ClientAddressesAssociation.Designer.cs">
+      <DependentUpon>201212272139421_ClientAddressesAssociation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\BillingAddress.cs" />
     <Compile Include="Model\Client.cs" />
@@ -81,6 +85,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201212241215066_AddressBook.resx">
       <DependentUpon>201212241215066_AddressBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201212272139421_ClientAddressesAssociation.resx">
+      <DependentUpon>201212272139421_ClientAddressesAssociation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
