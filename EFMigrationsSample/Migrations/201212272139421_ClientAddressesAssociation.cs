@@ -2,17 +2,25 @@ namespace EFMigrationsSample.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
+    using System.IO;
     
     public partial class ClientAddressesAssociation : DbMigration
     {
         public override void Up()
         {
+            Sql(this.Resources.GetString("CreateAddressData"));
+
             AddColumn("dbo.Clients", "BillingAddressId", c => c.Int(nullable: false));
             AddColumn("dbo.Clients", "DeliveryAddressId", c => c.Int(nullable: false));
+
+            Sql(this.Resources.GetString("MigrateClientAddresses"));
+
             AddForeignKey("dbo.Clients", "BillingAddressId", "dbo.AddressBook", "Id", cascadeDelete: true);
             AddForeignKey("dbo.Clients", "DeliveryAddressId", "dbo.AddressBook", "Id", cascadeDelete: true);
+            
             CreateIndex("dbo.Clients", "BillingAddressId");
             CreateIndex("dbo.Clients", "DeliveryAddressId");
+            
             DropColumn("dbo.Clients", "Name");
             DropColumn("dbo.Clients", "Address");
             DropColumn("dbo.Clients", "City");

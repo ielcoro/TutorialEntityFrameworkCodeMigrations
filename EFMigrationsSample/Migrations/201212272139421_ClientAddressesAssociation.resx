@@ -117,6 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CreateAddressData" xml:space="preserve">
+    <value>WITH uniqueaddresses (Address, City, State) AS 
+	(SELECT Address, City, State 
+		FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY City, Name ORDER BY City, Name) AS Ocurrences 
+		FROM Clients) Clients_RANK
+	 WHERE Ocurrences = 1)
+INSERT INTO AddressBook (AddressName, City, State, AddressType)
+SELECT Address, City, State, 'Delivery'
+FROM uniqueaddresses
+UNION
+SELECT Address, City, State, 'Billing'
+FROM uniqueaddresses</value>
+  </data>
+  <data name="MigrateClientAddresses" xml:space="preserve">
+    <value>UPDATE Clients
+SET DeliveryAddressId = A.Id
+FROM AddressBook AS A JOIN Clients AS C
+ON A.City = C.City AND A.AddressName = C.Address
+WHERE A.AddressType = 'Delivery'
+
+UPDATE Clients
+SET BillingAddressId = A.Id
+FROM AddressBook AS A JOIN Clients AS C
+ON A.City = C.City AND A.AddressName = C.Address
+WHERE A.AddressType = 'Billing'</value>
+  </data>
   <data name="Target" xml:space="preserve">
     <value>H4sIAAAAAAAEAO1bS2/jNhC+F+h/EHTaLbBWku0hXTi7SJykCFrHQZTd64KWaIdYilIlKrB/Ww/9Sf0LHepl8aGHn+sNerMkcmY483FmOEP/+/c/w0+LgFovOE5IyC7s08GJbWHmhT5h8ws75bN35/anjz//NLzxg4X1pRz3XoyDmSy5sJ85jz44TuI94wAlg4B4cZiEMz7wwsBBfuicnZz85pyeOhhI2EDLsoaPKeMkwNkDPI5C5uGIp4iOQx/TpHgPX9yMqnWPApxEyMMX9s3tmMxjxEGOxEVBRLFtXVKCQBIX05ltRb9++Jxgl8chm7sRDET0aRlh+D5DNMGF3B+iX/uKfnImRHcQYyHP+G60dLtaFCzrBpbPl0KsbGkX9ogSzHh9DIz6Ay+lF/DqIQ4jHPPlI54VM+9823LkeY46sZpWmyOYwy/G35/Z1n1KKZpSXOkIlOjyMMa/Y4ZB2dh/QJzjmIm5OBNe46rwuCKUAogufT/GSdLNsZ3aNaYEULrclNw9eiHzzHitYtrWI6Y5tp5JlCNqkNvmqzryNg6Dx5BWxlMGfHXDNPZAkqewbdQTiueY95dXUUSbwNpQTWJlRJPI6jCTzENnhelWpKtqvEIJzk2ZyV69d1qpaGvbjMwk9nH8mnbdCPxnyQVcICgazE4W2P8Tszl/rjiN0aJ8Az9t6zMj4PRhEo9TXJcsf25nWin7wHzddPoELpmWjK+xRwLx+BDDryKiQaByPSRIru91uqmfb0E93127c2VFDDF5hAznX8sBKz9Qf6/tfunjVnu+AsjlNOEx8nhh31e08Yolioed7oN+SMoEPDRXF7KhvS+2CWOXSRJ6JMO5BH81TMsruGG+1StmryJJuWnGKeUkosQDYS7sXzTldJEuN1CNtBoKZRantrobJgzCHubYuvR45n5GKPGQrxsKdObLb2AD4VggGVFItsUmJIzru40wj0SI9lmIMrnnZhXCVWzUL9c4wkzstz426sNfz0F1aSqmigq7NDZ0ahDshUw1Z+nAT2NytgNsNmV0NdpahnWk6GxYyuHg2WCnPgIYTjXfBaBSetAEHXOusAJMnkuvgUVjftGJ7u8PPJPcB4CbSf992K7SzANgKw/WMIfDDByXeTRhy5vHh7xcIz7ihY4zMdHFXJIa3M4q/Cuw0HAlE8jUZZpf4LRjerElr8Lwm4GG8Xgpby11KVr9oDa2tdCgGq1vDlOtqKZMDQF9s5YaMUkz6g6TFdBfOVq0adROaxRdJ45upp+myLk3BclHN10tzb6723vXhC63S4sGjP66W4stay6T+8pfrAq/Tl75LSvETkOJeDhGUQR4rZWMizeWm9eLR+/c9eu1QU7D8RJD2baStuIER0c0x8rXvBhzS+KEXyOOpkgcbUZ+oA1bxzuWLGUnqdus9FflePE7n6PXzwdm8KxUeQurC0Qgys7ImsX1iVnhHlEUGw7io5CmAWuOiM2z9Wy+Tqs712+mbMjD6qR7pGkCooq2tGCrWUXLTmQj94JA3dlsCYP2uNMDDo0zt8YD7AqfZAnrF0TTlbXl6QV/sch9WGh9jXbEquNSaSnsMen0LmM8mb0xKLeQ7O1RadU4W6oNGpSbf+hPLy/31QmNDBXKNgpF6a5Oonh1NI6tSEi23IGGBk8vhDTM2w8+8qaNZM9QP762UajSZgO61sJF1VGRoFG97U/JQGZtGquTq6SbxvPsnrGqZavqkIp7lbUq2emwyBS7bzloqWM+RDSfwhfii7TRXSYcBwMxYOD+RcsTQjlgjBiZ4YQ/hd8wnBUgsz1XLkpscInBSRKfHudNBiIW39nEWbPF0XSJIWO2qysM3cTWbrS9Du0bemrsBcXeM4rfBGjxdqs+2XaUpN7XdqSkDEsmKLXOTs/OdwWT73TtYS8gqd94aDTEBrcYtqKl3kzw93ozwUh9lzcTNvdQ27Zp1aslUvF1j40Bte63Udtto+5C81lxTw2sV9xJ/R89x4GeH6rP2dtke4JM0Z9av7O6RRf9YP3LH6VjqZfuG4oWyt27xm5lfn6DWD0NwbZ5HG1qmDT0Itv6kCbybX0oY7e0uVlqIm/uGB24BaqoRqrudXfzDO2r425pHuNyd9Sg7C2iyVlqlbu99CD16g34ndo/WcDlJWS+IiFq7Ax7ksepxtyxWVi6PkWicoiSlY8xRz64o8uYkxnyOHz2wPBZG6So4d8EU+zfsUnKo5TDknEwpVJhWDjQNv5Zo1WWeTiJsorqLpYAYhJYAp6wq5RQv5L71nCiaCAhPHNxfBS25OIYOV9WlO5D1pNQob4qoDzhIKJALJkwF73gZtm6dShrbHhN0DxGQVLQWM2HR4CfHyw+/gcQmUu0izUAAA==</value>
   </data>
